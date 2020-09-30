@@ -31,6 +31,24 @@ const FC = () => {
     return points;
   }
 
+  const printMonthlyRewards = (customerName:any, month:any, monthlyRewards:any) => {
+    return (
+    "  [MONTHLY REWARD CALCULATIONS FOR CUSTOMER]:   " +
+    customerName + " [FOR MONTH]:  " +
+    month +
+    "  [MONTHLY REWARD TOTAL]:  " +
+    monthlyRewards +
+    "          ");
+  }
+
+  const printTotalCustomerRewards = (customerName:any, monthlyRewards:any) => {
+    return ("   [TOTAL REWARDS FOR CUSTOMER]:  " +
+    customerName +
+    "   [TOTAL REWARDS]:  " +
+    monthlyRewards +
+    ";");
+  }
+
   function buildOutput(customerData: any) {
     let output = "";
 
@@ -47,32 +65,37 @@ const FC = () => {
         tmpMonth = "",
         tmpSpent = 0,
         tmpRewards = 0,
-        totalRewards = 0;
+        totalRewardsPerCustomer = 0,
+        totalRewardsPerMonth = 0;
 
       sortedRewards.map((reward: any) => {
         if (reward.customer !== tmpCust) {
           output +=
             tmpCust !== ""
-              ? "   [TOTAL REWARDS FOR CUSTOMER]:  " +
-                tmpCust +
-                "   [TOTAL REWARDS]:  " +
-                totalRewards +
-                ";"
+              ?  printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth) +  printTotalCustomerRewards(tmpCust, totalRewardsPerCustomer)
               : "";
 
           tmpCust = reward.customer;
           tmpMonth = "";
           tmpRewards = 0;
           tmpSpent = 0;
-          totalRewards = 0;
+          totalRewardsPerMonth = 0;
+          totalRewardsPerCustomer = 0;
+        }
+        else if(reward.customer === tmpCust && tmpMonth !== reward.month) {
+          //print month report
+          output +=printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth);
+
+          totalRewardsPerMonth = 0;
         }
 
         tmpMonth = reward.month;
         tmpSpent = reward.moneyspent;
         tmpRewards = calculatePoints(tmpSpent);
-        totalRewards += tmpRewards;
-        output +=
-          "  [CUSTOMER NAME]:   " +
+        totalRewardsPerMonth += tmpRewards;
+        totalRewardsPerCustomer += tmpRewards;
+      /*  output +=
+        "  [CUSTOMER NAME]:   " +
           tmpCust +
           "  [MONTH]:   " +
           tmpMonth +
@@ -80,17 +103,13 @@ const FC = () => {
           tmpSpent +
           "  [FOUND REWARDS]:  " +
           tmpRewards +
-          "          ";
+          "          ";*/
       });
 
       output +=
         tmpCust !== ""
-          ? "    [TOTAL REWARDS FOR CUSTOMER NAME]:  " +
-            tmpCust +
-            "    [TOTAL REWARDS]: " +
-            totalRewards +
-            ";"
-          : "";
+          ? printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth) + printTotalCustomerRewards(tmpCust, totalRewardsPerCustomer)
+          : ""
     }
     return output;
   }
