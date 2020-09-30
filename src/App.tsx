@@ -64,7 +64,7 @@ const FC = () => {
 
       let tmpCust = "",
         tmpMonth = "",
-        tmpSpent = 0,
+        //tmpSpent = 0,
         tmpRewards = 0,
         totalRewardsPerCustomer = 0,
         totalRewardsPerMonth = 0;
@@ -79,7 +79,7 @@ const FC = () => {
           tmpCust = reward.customer;
           tmpMonth = "";
           tmpRewards = 0;
-          tmpSpent = 0;
+         // tmpSpent = 0;
           totalRewardsPerMonth = 0;
           totalRewardsPerCustomer = 0;
         }
@@ -90,8 +90,8 @@ const FC = () => {
         }
 
         tmpMonth = reward.month;
-        tmpSpent = reward.moneyspent;
-        tmpRewards = calculatePoints(tmpSpent);
+       // tmpSpent = reward.moneyspent;
+        tmpRewards = calculatePoints(reward.moneyspent);
         totalRewardsPerMonth += tmpRewards;
         totalRewardsPerCustomer += tmpRewards;
       });
@@ -104,7 +104,6 @@ const FC = () => {
     return output;
   }
 
-  let output;
   const [dataset, setDataset] = React.useState({});
 
   React.useEffect(() => {
