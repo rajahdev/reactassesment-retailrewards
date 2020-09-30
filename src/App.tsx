@@ -2,6 +2,7 @@ import React from "react";
 // import logo from './logo.svg';
 import "./App.css";
 import customerData from "./data.json";
+import { CustomerRewardsBody } from "./styles";
 
 const FC = () => {
   function sortBy(rewards: any, property: any) {
@@ -33,20 +34,20 @@ const FC = () => {
 
   const printMonthlyRewards = (customerName:any, month:any, monthlyRewards:any) => {
     return (
-    "  [MONTHLY REWARD CALCULATIONS FOR CUSTOMER]:   " +
+    "[MONTHLY REWARD CALCULATIONS FOR CUSTOMER]:   " +
     customerName + " [FOR MONTH]:  " +
     month +
     "  [MONTHLY REWARD TOTAL]:  " +
     monthlyRewards +
-    "          ");
+    " , ");
   }
 
   const printTotalCustomerRewards = (customerName:any, monthlyRewards:any) => {
-    return ("   [TOTAL REWARDS FOR CUSTOMER]:  " +
+    return ("[TOTAL REWARDS FOR CUSTOMER]:  " +
     customerName +
     "   [TOTAL REWARDS]:  " +
     monthlyRewards +
-    ";");
+    " ; ");
   }
 
   function buildOutput(customerData: any) {
@@ -85,7 +86,6 @@ const FC = () => {
         else if(reward.customer === tmpCust && tmpMonth !== reward.month) {
           //print month report
           output +=printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth);
-
           totalRewardsPerMonth = 0;
         }
 
@@ -94,16 +94,6 @@ const FC = () => {
         tmpRewards = calculatePoints(tmpSpent);
         totalRewardsPerMonth += tmpRewards;
         totalRewardsPerCustomer += tmpRewards;
-      /*  output +=
-        "  [CUSTOMER NAME]:   " +
-          tmpCust +
-          "  [MONTH]:   " +
-          tmpMonth +
-          "  [AMOUNT]:  " +
-          tmpSpent +
-          "  [FOUND REWARDS]:  " +
-          tmpRewards +
-          "          ";*/
       });
 
       output +=
@@ -123,7 +113,7 @@ const FC = () => {
     return () => {};
   }, [dataset]);
 
-  return <div>{dataset ? <>{buildOutput(dataset)}</> : "Loading..."}</div>;
+  return <CustomerRewardsBody><div className="customer__output">{dataset ? <>{buildOutput(dataset)}</> : "Loading..."}</div></CustomerRewardsBody>;
 };
 
 /*
