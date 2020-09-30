@@ -4,7 +4,7 @@ import "./App.css";
 import customerData from "./data.json";
 import { CustomerRewardsBody } from "./styles";
 
-const FC = () => {
+const CustomerRewardsComponent = () => {
   function sortBy(rewards: any, property: any) {
     if (rewards !== undefined) {
       return rewards.sort(function (a: any, b: any) {
@@ -160,4 +160,4 @@ function App() {
 }
 */
 
-export default FC;
+export default CustomerRewardsComponent;
