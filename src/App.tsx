@@ -50,14 +50,14 @@ const FC = () => {
         totalRewards = 0;
 
       sortedRewards.map((reward: any) => {
-        //this is a new customer so get the new month and reset rewards for new customer
         if (reward.customer !== tmpCust) {
           output +=
             tmpCust !== ""
-              ? "[CUSTOMER]:  " +
+              ? "   [TOTAL REWARDS FOR CUSTOMER]:  " +
                 tmpCust +
-                "  [TOTAL REWARDS]:  " +
-                totalRewards
+                "   [TOTAL REWARDS]:  " +
+                totalRewards +
+                ";"
               : "";
 
           tmpCust = reward.customer;
@@ -66,45 +66,45 @@ const FC = () => {
           tmpSpent = 0;
           totalRewards = 0;
         }
-        //if the customer is the same and month is not last month then get money for the month
+
         tmpMonth = reward.month;
         tmpSpent = reward.moneyspent;
         tmpRewards = calculatePoints(tmpSpent);
         totalRewards += tmpRewards;
         output +=
-          " [NAME]:   " +
+          "  [CUSTOMER NAME]:   " +
           tmpCust +
-          "  " +
           "  [MONTH]:   " +
           tmpMonth +
           "  [AMOUNT]:  " +
           tmpSpent +
-          "  [REWARDS]:  " +
+          "  [FOUND REWARDS]:  " +
           tmpRewards +
           "          ";
       });
 
       output +=
         tmpCust !== ""
-          ? "          [CUSTOMER NAME]:  " +
+          ? "    [TOTAL REWARDS FOR CUSTOMER NAME]:  " +
             tmpCust +
-            " [TOTAL REWARDS]: " +
-            totalRewards
+            "    [TOTAL REWARDS]: " +
+            totalRewards +
+            ";"
           : "";
     }
     return output;
   }
-
+  
+  let output;
   const [dataset, setDataset] = React.useState({});
 
-  let output;
   React.useEffect(() => {
     setDataset(customerData);
 
     return () => {};
   }, [dataset]);
 
-  if (dataset != null) {
+  if (dataset !== undefined) {
     output = buildOutput(dataset);
   } else {
     output = "Loading...";
