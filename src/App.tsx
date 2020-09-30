@@ -94,7 +94,7 @@ const FC = () => {
     }
     return output;
   }
-  
+
   let output;
   const [dataset, setDataset] = React.useState({});
 
@@ -104,13 +104,7 @@ const FC = () => {
     return () => {};
   }, [dataset]);
 
-  if (dataset !== undefined) {
-    output = buildOutput(dataset);
-  } else {
-    output = "Loading...";
-  }
-
-  return <div>{output}</div>;
+  return <div>{dataset ? <>{buildOutput(dataset)}</> : "Loading..."}</div>;
 };
 
 /*
