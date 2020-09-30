@@ -32,23 +32,34 @@ const FC = () => {
     return points;
   }
 
-  const printMonthlyRewards = (customerName:any, month:any, monthlyRewards:any) => {
+  const printMonthlyRewards = (
+    customerName: any,
+    month: any,
+    monthlyRewards: any
+  ) => {
     return (
-    "[MONTHLY REWARD CALCULATIONS FOR CUSTOMER]:   " +
-    customerName + " [FOR MONTH]:  " +
-    month +
-    "  [MONTHLY REWARD TOTAL]:  " +
-    monthlyRewards +
-    " , ");
-  }
+      "[MONTHLY REWARD CALCULATIONS FOR CUSTOMER]:   " +
+      customerName +
+      " [FOR MONTH]:  " +
+      month +
+      "  [MONTHLY REWARD TOTAL]:  " +
+      monthlyRewards +
+      " , "
+    );
+  };
 
-  const printTotalCustomerRewards = (customerName:any, monthlyRewards:any) => {
-    return ("[TOTAL REWARDS FOR CUSTOMER]:  " +
-    customerName +
-    "   [TOTAL REWARDS]:  " +
-    monthlyRewards +
-    " ; ");
-  }
+  const printTotalCustomerRewards = (
+    customerName: any,
+    monthlyRewards: any
+  ) => {
+    return (
+      "[TOTAL REWARDS FOR CUSTOMER]:  " +
+      customerName +
+      "   [TOTAL REWARDS]:  " +
+      monthlyRewards +
+      " ; "
+    );
+  };
 
   function buildOutput(customerData: any) {
     let output = "";
@@ -73,24 +84,28 @@ const FC = () => {
         if (reward.customer !== tmpCust) {
           output +=
             tmpCust !== ""
-              ?  printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth) +  printTotalCustomerRewards(tmpCust, totalRewardsPerCustomer)
+              ? printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth) +
+                printTotalCustomerRewards(tmpCust, totalRewardsPerCustomer)
               : "";
 
           tmpCust = reward.customer;
           tmpMonth = "";
           tmpRewards = 0;
-         // tmpSpent = 0;
+          // tmpSpent = 0;
           totalRewardsPerMonth = 0;
           totalRewardsPerCustomer = 0;
-        }
-        else if(reward.customer === tmpCust && tmpMonth !== reward.month) {
+        } else if (reward.customer === tmpCust && tmpMonth !== reward.month) {
           //print month report
-          output +=printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth);
+          output += printMonthlyRewards(
+            tmpCust,
+            tmpMonth,
+            totalRewardsPerMonth
+          );
           totalRewardsPerMonth = 0;
         }
 
         tmpMonth = reward.month;
-       // tmpSpent = reward.moneyspent;
+        // tmpSpent = reward.moneyspent;
         tmpRewards = calculatePoints(reward.moneyspent);
         totalRewardsPerMonth += tmpRewards;
         totalRewardsPerCustomer += tmpRewards;
@@ -98,8 +113,9 @@ const FC = () => {
 
       output +=
         tmpCust !== ""
-          ? printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth) + printTotalCustomerRewards(tmpCust, totalRewardsPerCustomer)
-          : ""
+          ? printMonthlyRewards(tmpCust, tmpMonth, totalRewardsPerMonth) +
+            printTotalCustomerRewards(tmpCust, totalRewardsPerCustomer)
+          : "";
     }
     return output;
   }
@@ -112,7 +128,13 @@ const FC = () => {
     return () => {};
   }, [dataset]);
 
-  return <CustomerRewardsBody><div className="customer__output">{dataset ? <>{buildOutput(dataset)}</> : "Loading..."}</div></CustomerRewardsBody>;
+  return (
+    <CustomerRewardsBody>
+      <div className="customer__output">
+        {dataset ? <>{buildOutput(dataset)}</> : "Loading..."}
+      </div>
+    </CustomerRewardsBody>
+  );
 };
 
 /*
